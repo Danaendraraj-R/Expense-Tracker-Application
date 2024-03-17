@@ -1,0 +1,63 @@
+package DatabaseConnection;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
+
+public class DBConnection {
+
+    private static DataSource dataSource;
+
+    private DBConnection() {
+    }
+
+    private static synchronized void initializeDataSource() {
+        if (dataSource == null) {
+            BasicDataSource ds = new BasicDataSource();
+            ds.setUrl("jdbc:postgresql://localhost:5432/expense");
+            ds.setUsername("postgres");
+            ds.setPassword("Rajdr039*");
+            ds.setMinIdle(5);
+            ds.setMaxIdle(10);
+            ds.setMaxOpenPreparedStatements(100);
+            dataSource = ds;
+        }
+    }
+
+    public static Connection getConnection() {
+        initializeDataSource();
+        try {
+            return dataSource.getConnection();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void closeConnection(Connection connection) {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+Standard Template 
+
+Transaction - Reg
+
+Account:
+
+Amount:
+
+Type:
+
+Category:
+
